@@ -1,0 +1,65 @@
+################################################################################
+# Configuración global del Microservicio
+################################################################################
+app:
+  name: "Universal Login"
+  environment: "production"
+  version: "2.0.0"
+
+server:
+  port: "3000"
+
+auth:
+  jwt_secret: "super-secret-key"
+  token_duration_minutes: 30        # access‑token
+  refresh_token_minutes: 10080      # refresh‑token (7 días)
+  mfa_enabled: false
+  attempts_limit: 5
+  attempts_window_minutes: 15
+
+database:
+  driver: "sqlite"                  # sqlite | postgres | mysql | mssql
+  dsn: "users.db"
+
+multitenancy:
+  enabled: true
+
+oauth:
+  enabled: false
+  providers:
+    google:
+      client_id: "REEMPLAZA_ME"
+      client_secret: "REEMPLAZA_ME"
+      redirect_uri: "http://localhost:3000/oauth/google/callback"
+
+i18n:
+  default: "es"
+  supported: ["es", "en"]
+
+# Campos y nombres de la respuesta JSON
+response_template:
+  status_field: "status"
+  code_field: "code"
+  message_field: "message"
+  data_field: "data"
+  error_field: "error"
+  timestamp_field: "timestamp"
+  user_fields:
+    - "id"
+    - "username"
+    - "email"
+    - "role"
+    - "permissions"
+    - "last_login"
+
+# Para habilitar / deshabilitar módulos sin recompilar
+endpoints:
+  login: true
+  register: true
+  mfa: false
+  oauth: false
+  audit: false
+
+# Query parametrizable para obtener permisos
+queries:
+  permisos_usuario: ""
